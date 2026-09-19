@@ -14,16 +14,19 @@ interface RepoData {
 
 export default function ActiveProject() {
   const activeLink = process.env.NEXT_PUBLIC_ACTIVE_PROJECT_LINK;
+  const cleanActiveLink = activeLink ? activeLink.replace(/^["']|["']$/g, '').trim() : "";
+  
   const [repoData, setRepoData] = useState<RepoData | null>(null);
-  const [loading, setLoading] = useState(!!activeLink);
+  const [loading, setLoading] = useState(!!cleanActiveLink);
 
   useEffect(() => {
-    if (!activeLink) return;
+    if (!cleanActiveLink) {
+      setLoading(false);
+      return;
+    }
 
-    // Extract owner and repo from github URL
-    // e.g. https://github.com/zoolpher/some-repo
     try {
-      const url = new URL(activeLink);
+      const url = new URL(cleanActiveLink);
       const pathParts = url.pathname.split("/").filter(Boolean);
       if (pathParts.length >= 2 && url.hostname === "github.com") {
         const owner = pathParts[0];
@@ -65,7 +68,7 @@ export default function ActiveProject() {
           <div className="h-[2px] bg-zinc-200 dark:bg-zinc-800 flex-1 rounded-full"></div>
         </div>
 
-        {!activeLink ? (
+        {!cleanActiveLink ? (
           <p className="text-zinc-500 dark:text-zinc-400 text-left">No active projects currently.</p>
         ) : loading ? (
           <div className="p-8 text-center bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-xl animate-pulse">
