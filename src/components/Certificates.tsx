@@ -31,6 +31,15 @@ const certificates = [
     downloadLink: "/saylor-os-certificate.pdf",
     downloadName: "Aryan_Kumar_Mahto_Operating_Systems_Certificate.pdf",
   },
+  {
+    title: "CS107: C++ Programming",
+    issuer: "Saylor Academy",
+    date: "Issued Sep 2026 · Credential ID: 2559170208AM",
+    link: process.env.NEXT_PUBLIC_CERT_CPP_SAYLOR,
+    image: "/saylor-cpp-certificate.svg",
+    downloadLink: "/saylor-cpp-certificate.pdf",
+    downloadName: "Aryan_Kumar_Mahto_Cpp_Programming_Certificate.pdf",
+  },
 ];
 
 export default function Certificates() {
