@@ -3,8 +3,22 @@
 import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 import { SiGmail, SiLeetcode, SiMedium, SiX } from "react-icons/si";
+import { Eye } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Hero() {
+  const [views, setViews] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch('/api/views')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.views > 0) {
+          setViews(data.views);
+        }
+      })
+      .catch(err => console.error("Error fetching views:", err));
+  }, []);
   return (
     <section className="min-h-[80vh] flex flex-col justify-center max-w-4xl mx-auto px-6 py-20">
       <motion.div
@@ -99,6 +113,12 @@ export default function Hero() {
                 <SiGmail className="w-6 h-6" />
                 <span className="sr-only">Email</span>
               </a>
+            )}
+            {views !== null && (
+              <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 md:border-l border-zinc-200 dark:border-zinc-800 md:pl-5 ml-1">
+                <Eye className="w-5 h-5" />
+                <span className="text-sm font-medium">{views}</span>
+              </div>
             )}
           </div>
         </div>
